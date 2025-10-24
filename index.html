@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>PA CLICK KO BOSS</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background-color: #fff6e0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      flex-direction: column;
+    }
+
+    .container {
+      text-align: center;
+      width: 100%;
+      max-width: 500px;
+      padding: 20px;
+    }
+
+    h1, h2 {
+      font-size: 38px;
+      font-weight: bold;
+      margin-bottom: 25px;
+    }
+
+    .options button {
+      margin: 10px;
+      padding: 18px 30px;
+      font-size: 22px;
+      border: none;
+      border-radius: 10px;
+      background: #ffcccc;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .options button:hover {
+      background: #ffaaaa;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .video-wrapper {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    .video-container {
+      width: 100%;
+      max-width: 360px;
+      aspect-ratio: 9 / 16;
+      background-color: #fff4db;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      position: relative;
+    }
+
+    video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .controls {
+      background: #fff6e0;
+      padding: 10px;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      border-radius: 0 0 12px 12px;
+    }
+
+    .controls button {
+      padding: 8px 18px;
+      font-size: 14px;
+      background: #ffe0e0;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .controls button:hover {
+      background: #ffc0c0;
+    }
+
+    input[type=range] {
+      width: 80%;
+      margin-top: 8px;
+      appearance: none;
+      height: 6px;
+      border-radius: 5px;
+      background: #ddd;
+      outline: none;
+    }
+
+    input[type=range]::-webkit-slider-thumb {
+      appearance: none;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #ff6666;
+    }
+
+    @media (max-width: 480px) {
+      h1, h2 {
+        font-size: 26px;
+      }
+
+      .video-container {
+        max-width: 90vw;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="quiz" class="container">
+    <h1>kinsay pinaka gwapa sa ilahang tulo? 🤔</h1>
+    <div class="options">
+      <button onclick="showWrong()">BINI AIAH</button>
+      <button onclick="showWrong()">BINI MALOI</button>
+      <button onclick="showWrong()">BINI COLET</button>
+    </div>
+  </div>
+
+  <div id="popup" class="container hidden">
+    <h2>SYEMPRE IKAW! 🫶</h2>
+    <div class="video-wrapper">
+      <div class="video-container">
+        <video id="crushVid" autoplay playsinline muted>
+          <source src="crush_video.MP4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+      </div>
+    </div>
+    <div class="controls">
+      <button onclick="togglePlay()">⏯ Play / Pause</button>
+      <button onclick="toggleMute()">🔇 Mute / Unmute</button>
+    </div>
+    <input type="range" id="seekBar" value="0" onchange="seekVideo(this.value)">
+  </div>
+
+  <script>
+    const video = document.getElementById("crushVid");
+    const seekBar = document.getElementById("seekBar");
+
+    function showWrong() {
+      document.getElementById("quiz").style.display = "none";
+      document.getElementById("popup").classList.remove("hidden");
+      video.muted = false;
+      video.currentTime = 0;
+      video.play();
+    }
+
+    function togglePlay() {
+      if (video.paused) {
+        video.play();
+      } else {
+        video.pause();
+      }
+    }
+
+    function toggleMute() {
+      video.muted = !video.muted;
+    }
+
+    function seekVideo(val) {
+      const seekTo = (val / 100) * video.duration;
+      video.currentTime = seekTo;
+    }
+
+    video.addEventListener('timeupdate', () => {
+      const progress = (video.currentTime / video.duration) * 100;
+      seekBar.value = progress;
+    });
+  </script>
+</body>
+</html>
